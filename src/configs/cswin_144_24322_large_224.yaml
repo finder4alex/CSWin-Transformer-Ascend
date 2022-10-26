@@ -1,0 +1,61 @@
+# Architecture
+arch: cswin_144_24322_large_224
+
+# ===== Dataset ===== #
+data_url: ./data/imagenet
+set: ImageNet
+num_classes: 1000
+mix_up: 0.01
+cutmix: 0.3
+auto_augment: rand-m9-mstd0.5-inc1
+interpolation: bicubic
+re_prob: 0.25
+re_mode: pixel
+re_count: 1
+mixup_prob: 1.0
+switch_prob: 0.5
+mixup_mode: batch
+crop_ratio: 0.9
+
+
+# ===== Learning Rate Policy ======== #
+optimizer: adamw
+lr_scheduler: cosine_lr
+base_lr: 0.00025
+min_lr: 0.0000005
+warmup_length: 0
+warmup_lr: 0.000001
+cool_length: 10
+cool_lr: 0.0000005
+
+
+# ===== Network training config ===== #
+amp_level: O1
+keep_bn_fp32: True
+beta: [ 0.9, 0.999 ]
+is_dynamic_loss_scale: True
+use_global_norm: True
+clip_global_norm_value: 5.
+enable_ema: True
+ema_decay: 0.9996
+loss_scale: 1024
+weight_decay: 0.00000001
+momentum: 0.9
+label_smoothing: 0.1
+epochs: 40
+batch_size: 64
+
+
+# ===== Hardware setup ===== #
+num_parallel_workers: 8
+device_target: Ascend
+
+# ===== Model config ===== #
+drop_path_rate: 0.2
+patch_size: 4
+embed_dim: 144
+depth: [ 2, 4, 32, 2 ]
+split_size: [ 1, 2, 7, 7 ]
+num_heads: [ 6, 12, 24, 24]
+mlp_ratio: 4.0
+image_size: 224
